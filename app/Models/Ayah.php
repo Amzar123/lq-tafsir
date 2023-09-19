@@ -11,7 +11,7 @@ class Ayah extends Model
     /**
      * Define the table name (optional).
      */
-    protected $table = 'ayah';
+    protected $table = 'ayahs';
 
     /**
      * Define the columns and their data types.
