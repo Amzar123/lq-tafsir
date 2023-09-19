@@ -11,17 +11,6 @@ use Illuminate\Support\Str;
 
 class TadaburController extends Controller
 {
-    public function getOneById($id)
-    {
-        $tadabur = Tadabur::where('ayah_id', $id)->first();
-        // handle not found
-        if (!$tadabur) {
-            return ApiResponse::notFound("tadabur not found");
-        }
-
-        return ApiResponse::success($tadabur);
-    }
-
     // create tadabur 
     public function create(Request $request)
     {
@@ -35,6 +24,48 @@ class TadaburController extends Controller
         $tadabur->created_at = now()->format("Y-m-d H:i");
         $tadabur->updated_at = now()->format("Y-m-d H:i");
         $tadabur->save();
+
+        return ApiResponse::success($tadabur);
+    }
+
+    public function getList(Request $request)
+    {
+
+        // perform query from request
+        $ayahId = $request->query('ayahId');
+        $userId = $request->query('userId');
+        $search = $request->query('search');
+
+
+        // Start building your query
+        $query = Tadabur::query();
+
+        if ($ayahId) {
+            $query->where('ayah_id', $ayahId);
+        }
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        if ($search) {
+            $query->where('content', 'like', '%' . $search . '%');
+        }
+
+        // Execute the query
+        $tadaburs = $query->get();
+
+        return ApiResponse::success($tadaburs);
+    }
+
+    // function get detail tadabur
+    public function getDetail($id)
+    {
+        $tadabur = Tadabur::find($id);
+
+        if (!$tadabur) {
+            return ApiResponse::notFound("Tadabur not found");
+        }
 
         return ApiResponse::success($tadabur);
     }

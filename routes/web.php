@@ -34,7 +34,8 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::prefix('tadabur')->middleware('web')->group(function () {
-        Route::get('/one/{id}', [TadaburController::class, 'getOneById']);
         Route::post('/one', [TadaburController::class, 'create']);
+        Route::get('/list', [TadaburController::class, 'getList']);
+        Route::get('/one/{id}', [TadaburController::class, 'getDetail']);
     });
 });

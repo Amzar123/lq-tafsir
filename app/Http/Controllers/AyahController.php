@@ -7,8 +7,10 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Ayah;
 use App\Models\SavedAyah;
+use App\Models\LikeTafsir;
 use ApiResponse;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class AyahController extends Controller
 {
@@ -22,30 +24,15 @@ class AyahController extends Controller
     // store data to saved_ayah table
     public function saveAyah(Request $request)
     {
-        $token = $request->session()->token();
- 
-    
         $ayah = new SavedAyah();
 
         // get request params
+        $ayah->id = Str::uuid();
         $ayah->ayah_id = $request->id;
-        dd("ini dia ", $ayah);
-
-        $data = [
-            'id' => Str::uuid(),
-            'user_id' => Str::uuid(),
-            // ayah_id from request params
-
-            'created_at'=>now()->format("Y-m-d H:i"),
-            'updated_at'=>now()->format("Y-m-d H:i"),
-        ];
-
-        $ayah->surah_id = $request->surah_id;
-        $ayah->ayah_number = $request->ayah_number;
-        $ayah->ayah_text = $request->ayah_text;
+        $ayah->user_id = Str::uuid();
+        $ayah->created_at = now()->format("Y-m-d H:i");
+        $ayah->updated_at = now()->format("Y-m-d H:i");
         $ayah->save();
-
-        $token = csrf_token();
 
         return ApiResponse::success($ayah);
     }
@@ -58,35 +45,21 @@ class AyahController extends Controller
         return ApiResponse::success($ayah);
     }
 
-    // store data to saved_ayah table
-    public function likeTafsir($id)
+    // function to create like ayah 
+    public function likeTafsir(Request $request)
     {
-        $token = $request->session()->token();
- 
-    
-        $ayah = new SavedAyah();
-
-        // get request params
-        $ayah->ayah_id = $request->id;
-        dd("ini dia ", $ayah);
 
         $data = [
             'id' => Str::uuid(),
             'user_id' => Str::uuid(),
-            // ayah_id from request params
-
-            'created_at'=>now()->format("Y-m-d H:i"),
-            'updated_at'=>now()->format("Y-m-d H:i"),
+            'ayah_id' => $request->id,
+            'created_at'=> now()->format("Y-m-d H:i"),
+            'updated_at'=> now()->format("Y-m-d H:i"),
         ];
 
-        $ayah->surah_id = $request->surah_id;
-        $ayah->ayah_number = $request->ayah_number;
-        $ayah->ayah_text = $request->ayah_text;
-        $ayah->save();
+        $likedTafsir = LikeTafsir::create($data);
 
-        $token = csrf_token();
-
-        return ApiResponse::success($ayah);
+        return ApiResponse::success($likedTafsir);
     }
 
 }
