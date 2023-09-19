@@ -9,22 +9,11 @@ use App\Models\Ayah;
 
 class AyahController extends Controller
 {
-    public function get(Request $request)
+    public function getOneRandom(Request $request)
     {
-        // $result = Cache::remember('surahs', 604800, function () {
-            
-
-        //     dd($surah);
-
-        //     return [
-        //         $surah->get(),
-        //         $surah->getCode()
-        //     ];
-        // });
-
-        $surah = Surah::get();
+        $randomRecord = Ayah::inRandomOrder()->first();
         return response()->json([
-            'data' => $surah,
+            'data' => $randomRecord,
             'code' => 200
         ])->header('Content-Type', 'application/json')->setMaxAge(86400);
     }

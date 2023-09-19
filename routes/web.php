@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SurahController;
+use App\Http\Controllers\AyahController;
 use Slim\Routing\RouteCollectorProxy;
 
 
@@ -26,10 +27,7 @@ Route::prefix('v1')->group(function () {
 
 
     Route::prefix('ayah')->group(function () {
-        Route::get('/one', [SurahController::class, 'get']);
-        Route::get('/one/random', [SurahController::class, 'get']);
+        Route::get('/one/random', [AyahController::class, 'getOneRandom']);
+        Route::get('/one', [AyahController::class, 'get']);
     });
-    // Route::get('/surah/{number}', [SurahController::class, 'getByNumber']);
-    // Route::get('/surah/{number}/{edition}', [SurahController::class, 'getOneByNumberAndEdition']);
-    // Route::get('/surah/{number}/editions/{editions}', [SurahController::class, 'getManyByNumberAndEdition']);
 });
