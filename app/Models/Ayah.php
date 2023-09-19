@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage; // Add this import if you want to read the CSV file from storage
 use Illuminate\Support\Collection;
+use Ramsey\Uuid\Uuid; 
 
 class Ayah extends Model
 {
@@ -26,5 +27,10 @@ class Ayah extends Model
         'translate_id',
         'number',
         'juz',
+    ];
+
+     // Specify the UUID column
+     protected $casts = [
+        'id' => 'string',
     ];
 }
