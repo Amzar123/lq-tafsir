@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/one/random', [AyahController::class, 'getOneRandom']);
         Route::post('/save', [AyahController::class, 'saveAyah']);
         Route::get('/one/{id}', [AyahController::class, 'getOneById']);
+        Route::post('/like', [AyahController::class, 'likeTafsir']);
     });
 
     Route::prefix('tadabur')->middleware('web')->group(function () {
